@@ -1,0 +1,160 @@
+JDBC CURD operations:
+
+select:
+String Query2 = "SELECT * FROM Feedback WHERE feedbackID = ?";
+String dbUrl = "jdbc:mysql://localhost:3306/Feedback"; // Correct database URL
+String user = "root";
+String password = "root";
+
+try {
+    // Load the MySQL driver
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    // Establish a database connection
+    try (Connection con = DriverManager.getConnection(dbUrl, user, password)) {
+
+        // Create and execute the prepared statement
+        try (PreparedStatement st2 = con.prepareStatement(Query2)) {
+            // Set the parameter for feedbackID
+            st2.setInt(1, Integer.parseInt(jTextField1.getText())); 
+
+            // Execute the query
+            try (ResultSet rs2 = st2.executeQuery()) { // Removed argument from executeQuery()
+                if (rs2.next()) {
+                    // Retrieve and display values
+                    String ft = rs2.getString("feedbackText");
+                    String r = rs2.getString("rating");
+                    String fid = rs2.getString("feedbackID");
+                    String cid = rs2.getString("customerID");
+
+                    jTextField4.setText(ft);
+                    jTextField2.setText(fid);
+                    jTextField3.setText(cid);
+                    jTextField5.setText(r);
+                } else {
+                    jLabel2.setText("No feedback records found.");
+                }
+            }
+        }
+    }
+} catch (ClassNotFoundException e) {
+    e.printStackTrace();
+    jLabel2.setText("Driver not found.");
+} catch (SQLException e) {
+    e.printStackTrace();
+    jLabel2.setText("Database error occurred.");
+} catch (NumberFormatException e) {
+    e.printStackTrace();
+    jLabel2.setText("Invalid input: Feedback ID must be a number.");
+}
+
+update:
+String updateQuery = "UPDATE Feedback SET feedbackText = ?, rating = ? WHERE feedbackID = ?";
+String dbUrl = "jdbc:mysql://localhost:3306/Feedback";
+String user = "root";
+String password = "root";
+
+try {
+    // Load the MySQL driver
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    // Establish a database connection
+    try (Connection con = DriverManager.getConnection(dbUrl, user, password);
+         PreparedStatement pstmt = con.prepareStatement(updateQuery)) {
+         
+        // Set the parameters for the prepared statement
+        pstmt.setString(1, jTextField4.getText()); // Updated feedback text
+        pstmt.setString(2, jTextField5.getText()); // Updated rating
+        pstmt.setString(3, jTextField2.getText()); // Feedback ID to identify the record
+
+        // Execute the update query
+        int rowsUpdated = pstmt.executeUpdate();
+
+        if (rowsUpdated > 0) {
+            jLabel2.setText("Feedback updated successfully.");
+        } else {
+            jLabel2.setText("No record found with the given Feedback ID.");
+        }
+    }
+} catch (ClassNotFoundException e) {
+    e.printStackTrace();
+    jLabel2.setText("Driver not found.");
+} catch (SQLException e) {
+    e.printStackTrace();
+    jLabel2.setText("Database error occurred.");
+}
+
+insert:
+String insertQuery = "INSERT INTO Feedback (feedbackID, customerID, feedbackText, rating) VALUES (?, ?, ?, ?)";
+String dbUrl = "jdbc:mysql://localhost:3306/Feedback"; // Correct the URL
+String user = "root";
+String password = "root";
+
+try {
+    // Load the MySQL driver
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    // Establish a database connection
+    try (Connection con = DriverManager.getConnection(dbUrl, user, password);
+         PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
+         
+        // Set parameters for the prepared statement
+        pstmt.setInt(1, Integer.parseInt(jTextField9.getText())); // feedbackID
+        pstmt.setInt(2, Integer.parseInt(jTextField10.getText())); // customerID
+        pstmt.setString(3, jTextField6.getText()); // feedbackText
+        pstmt.setInt(4, Integer.parseInt(jTextField7.getText())); // rating
+
+        // Execute the insert query
+        int rowsInserted = pstmt.executeUpdate();
+
+        if (rowsInserted > 0) {
+            jLabel5.setText("Inserting values is successful");
+        } else {
+            jLabel5.setText("Inserting values is unsuccessful");
+        }
+    }
+} catch (ClassNotFoundException e) {
+    e.printStackTrace();
+    jLabel5.setText("Driver not found.");
+} catch (SQLException e) {
+    e.printStackTrace();
+    jLabel5.setText("Database error occurred.");
+} catch (NumberFormatException e) {
+    e.printStackTrace();
+    jLabel5.setText("Invalid input: feedbackID, customerID, or rating must be numbers.");
+}
+
+delete:
+String deleteQuery = "DELETE FROM Feedback WHERE feedbackID = ?";
+                    
+  String dbUrl = "jdbc:mysql://localhost:3306/Feedback";
+String user = "root";
+String password = "root";
+
+try {
+    // Load the MySQL driver
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    // Establish a database connection
+    try (Connection con = DriverManager.getConnection(dbUrl, user, password);
+         PreparedStatement pstmt = con.prepareStatement(deleteQuery)) {
+         
+        // Set the parameter for the prepared statement
+        pstmt.setString(1, jTextField2.getText()); // Feedback ID to identify the record
+
+        // Execute the delete query
+        int rowsDeleted = pstmt.executeUpdate();
+
+        if (rowsDeleted > 0) {
+            jLabel2.setText("Feedback deleted successfully.");
+        } else {
+            jLabel2.setText("No record found with the given Feedback ID.");
+        }
+    }
+} catch (ClassNotFoundException e) {
+    e.printStackTrace();
+    jLabel2.setText("Driver not found.");
+} catch (SQLException e) {
+    e.printStackTrace();
+    jLabel2.setText("Database error occurred.");
+}
