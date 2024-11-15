@@ -1,0 +1,35 @@
+SWINGS [don't refer if you don't know]
+
+int num1=Integer.parseInt(jTextField1.getText());
+int num2=Integer.parseInt(jTextField2.getText());
+int result=num1 + num2;
+jLabel1.setText(String.valueOf(result));     //calc program
+
+String name=jTextField1.getText().trim();
+String email=jTextField2.getText().trim();
+String password=new String(jPasswordField1.getPassword()).trim();
+String phone=jTextField4.getText().trim();
+if(name.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+   jLabel6.setText("Error: The fields are Empty");
+   }
+   else if(!Pattern.matches("^[a-zA-Z ]+$",name)) {
+      jLabel6.setText("Name should be in the right format");
+   }
+   else if(!Pattern.matches("^[A-Za-z0-9_.-]+@(.+)$",email)){
+      jLabel6.setText("Email should be in the right format");
+   }
+   else if(password.length()<8){
+      jLabel6.setText("Password should be atleast 8 characters");
+   }
+   else if(phone.length()!=10){
+      jLabel6.setText("Phone should be atleast 10 digits");
+   }
+   else{
+      jLabel6.setText("Login Successful");
+   }
+
+jLabel2.setText("Unassigned"); //delete
+jLabel2.setText("Completed"); //completed
+
+String task=jTextField1.getText();
+jLabel2.setText(String.valueOf(task));  //add
