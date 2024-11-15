@@ -1,0 +1,89 @@
+Abstract Interfaces
+i), ii), iii)
+import java.util.*;
+import java.util.regex.Pattern;
+interface Paymentmethod {
+    boolean auth();
+    String transt(); 
+}
+abstract class Payment implements Paymentmethod {
+    public abstract String getPD();
+}
+class Credit extends Payment {
+    private String cn;
+    private String cno;
+    private String exp;
+    public Credit(String cn, String cno, String exp) {
+        if(!isValidN(cn) || !isValidNo(cno) || !isValidE(exp)) {
+            throw new IllegalArgumentException("Invalid card data");
+        }
+        this.cn=cn;
+        this.cno=cno;
+        this.exp=exp;
+    }
+    public boolean auth() {
+        return true;
+    }
+    public String transt() {
+        return auth()? "Success": "failure";
+    }
+    private boolean isValidN(String cn) {
+        return cn!=null && !cn.isEmpty();
+    } 
+    private boolean isValidNo(String cno) {
+        return Pattern.matches("\\d{4}-\\d{4}-\\d{4}-\\d{4}",cno);
+    }
+    private boolean isValidE(String exp) {
+        return Pattern.matches("0[1-9]|1[0-2]/\\d{2}",exp);
+    }
+    public String getPD() {
+        return "Cn: "+cn+"\nCno: "+cno+"\nexp: "+exp;
+    }
+}
+class Paypal extends Payment {
+     private String e;
+    private String tid;
+    public Paypal(String e, String tid) {
+        if(!isValidNi(tid) || !isValidEmail(e)) {
+            throw new IllegalArgumentException("Invalid Paypal data");
+        }
+        this.e=e;
+        this.tid=tid;
+    }
+    public boolean auth() {
+        return true;
+    }
+    public String transt() {
+        return auth()? "Success": "failure";
+    }
+    private boolean isValidNi(String tid) {
+        return tid!=null && !tid.isEmpty();
+    }
+    private boolean isValidEmail(String e) {
+        return Pattern.matches("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$",e);
+    }
+    public String getPD() {
+        return "email: "+e+"\ntid: "+tid;
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        String Payt=in.nextLine().toLowerCase();
+        Payment p=null;
+        if(Payt.equals("credit")) {
+            String cn=in.nextLine().trim();
+            String cno=in.nextLine();
+            String exp=in.nextLine();
+            p=new Credit(cn,cno,exp);
+        }
+        if(Payt.equals("paypal")) {
+            String e=in.nextLine();
+            String tid=in.nextLine();
+            p=new Paypal(e,tid);
+        }
+        System.out.println("Payment Type: "+Payt);
+        System.out.println(p.getPD());
+        System.out.println("Transaction Status: "+p.transt());
+    }
+}
