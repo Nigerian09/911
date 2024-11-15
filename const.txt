@@ -1,0 +1,138 @@
+Constructors:
+i.
+import java.util.*;
+class IsValid{
+    private int accno;
+    private double accbal;
+    public IsValid(int accno, double accbal){
+        this.accno=accno;
+        this.accbal=accbal;
+    }
+    public void show(){
+        if(accno<=500 && accno>=-500 && accbal<=1000 && accbal>=-1000){
+            System.out.println("The numbers are true");
+        }
+        else{
+            System.out.println("The numbers are false");
+        }
+    }
+}
+class main{
+    public static void main(String[] args){
+        Scanner in=new Scanner(System.in);
+        try{
+        int accno=in.nextInt();
+        double accbal=in.nextDouble();
+        IsValid v=new IsValid(accno, accbal);
+        v.show();
+        }
+        catch(NumberFormatException e){
+            System.out.println("Invalid input");
+        }
+        finally{
+            in.close();
+        }
+    }
+}
+//input
+400
+500
+//output
+The numbers are true
+
+ii)
+import java.util.*;                    
+class Library {
+    private String t;
+    private String a;
+    public Library(String t, String a) {
+        this.t=t;
+        this.a=a;
+    }
+    public static boolean isValid(String a) {
+        return a.matches("[a-zA-Z0-9 ]{1,50}");
+    }
+    public boolean matches(String t, String a) {
+       return this.t.equals(t) && this.a.equals(a);
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        try {
+            String t=in.nextLine().trim();
+            String a=in.nextLine().trim();
+            if(!Library.isValid(t) || !Library.isValid(a)) {
+                System.out.println("Invalid input");
+                return;
+            }
+            Library l=new Library(t, a);
+            String vt=in.nextLine().trim();
+            String va=in.nextLine().trim();
+            if(!Library.isValid(vt) || !Library.isValid(va)) {
+                System.out.println("Invalid input");
+                return;
+            }
+            if(l.matches(vt, va)) {
+                System.out.print("True");
+            }
+            else {
+                System.out.print("False");
+            }
+            
+        }
+        catch(Exception e) {
+            System.out.print("Invalid");
+        }
+    }
+}
+
+iii)
+import java.util.*;
+class Library {
+    private String t;
+    private int a;
+    public Library(String t, int a) {
+        this.t=t;
+        this.a=a;
+    }
+    public static boolean isValid(String a) {
+        return a.matches("[a-zA-Z0-9 ]{1,50}");
+    }
+    public static boolean isValidGrade(int b) {
+        return b>=0 && b<=100;
+    }
+    public boolean matches(String t, int a) {
+       return this.t.equals(t) && this.a==a;
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        try {
+            String t=in.nextLine();
+            int a=in.nextInt();
+            in.nextLine();
+            if(!Library.isValid(t) || !Library.isValidGrade(a)) {
+                System.out.println("Invalid input");
+                return;
+            }
+            Library l=new Library(t, a);
+            String vt=in.nextLine();
+            int va=in.nextInt();
+            if(!Library.isValid(vt) || !Library.isValidGrade(va)) {
+                System.out.println("Invalid input");
+                return;
+            }
+            if(l.matches(vt, va)) {
+                System.out.print("True");
+            }
+            else {
+                System.out.print("False");
+            }
+        }
+        catch(Exception e) {
+            System.out.print("Invalid");
+        }
+    }
+}
