@@ -1,0 +1,106 @@
+Collection Interface
+i), ii), iii)
+import java.util.*; 
+class Classroom {  
+    private List<Map<String, String>> attendanceList;     
+    public Classroom() {  
+        attendanceList = new ArrayList<>();
+    }  
+    public void addStudent(String studentName) {  
+        Map<String, String> studentRecord = new HashMap<>();         
+        studentRecord.put("Name", studentName);         
+        studentRecord.put("Status", "Absent");          
+        attendanceList.add(studentRecord);  
+        System.out.println("Student " + studentName + " has been added.");  
+    }  
+    public void markAttendance(String studentName, String status) {  
+        boolean studentFound = false;  
+        for (Map<String, String> studentRecord : attendanceList) {  
+            if (studentRecord.get("Name").equals(studentName)) {  
+                studentRecord.put("Status", status);                 
+                studentFound = true;  
+                System.out.println("Attendance for " + studentName + " has been marked as " + status + ".");  
+                break;  
+            }  
+        }  
+        if (!studentFound) {  
+            System.out.println("Student " + studentName + " not found.");  
+        }  
+    }
+    public void displayAttendance() {  
+        System.out.println("\nAttendance Records:");         
+        for (Map<String, String> studentRecord : attendanceList) {
+            System.out.println("Student: " + studentRecord.get("Name") + " | Status: " + studentRecord.get("Status"));  
+        }  
+    }
+    public static void main(String[] args) {  
+        Scanner scanner = new Scanner(System.in);  
+        Classroom classroom = new Classroom();  
+        String studentName = scanner.nextLine();         
+        classroom.addStudent(studentName);
+        studentName = scanner.nextLine();         
+        String status = scanner.nextLine();  
+        classroom.markAttendance(studentName, status);
+        classroom.displayAttendance();  
+    }
+}
+
+//input:
+6
+1
+John
+2
+John Present
+2
+Alice Absent
+2
+Bob Present
+3
+//output:
+Student 6 has been added.
+Student 1 not found.
+
+Attendance Records:
+Student: 6 | Status: Absent
+
+
+//output manipulated code
+import java.util.*;
+class Classroom {
+    private List<String> studs;
+    private Map<String, String> atts;
+    public Classroom() {
+        studs=new ArrayList<>();
+        atts=new HashMap<>();
+    }
+    public void addStudent(String name) {
+        if(name!=null && !name.isEmpty()) {
+            studs.add(name);
+            atts.put(name,"Absent");
+            System.out.println("The name "+name+" is added");
+        }
+    }
+    public void markatts(String name, String status) {
+        if(studs.contains(name) && (status.equals("Present") || status.equals("Absent"))) {
+            atts.put(name, status);
+            System.out.println("The name "+name+" is updated with the status "+status);
+        }
+    }
+    public void display() {
+        for(String stu : studs) {
+            String status = atts.get(stu);
+            System.out.println(stu+" : "+status);
+        }
+    }
+}
+class Main {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        Classroom c=new Classroom();
+        c.addStudent("Alice");
+        c.addStudent("Bob");
+        c.markatts("Alice","Absent");
+        c.markatts("Bob","Present");
+        c.display();
+    }
+}
