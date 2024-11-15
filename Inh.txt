@@ -1,0 +1,152 @@
+Inheritance
+i)
+import java.util.Scanner;
+abstract class Payment {
+    double amount;
+    Payment(double amount) { 
+        this.amount = amount;
+    }
+    abstract double calculateFinalAmount();
+}
+class CreditCardPayment extends Payment {
+    CreditCardPayment(double amount) {
+        super(amount); 
+    }
+    double calculateFinalAmount() { 
+        return amount * 1.02;
+    }
+}
+class DebitCardPayment extends Payment {
+    DebitCardPayment(double amount) {
+        super(amount); 
+    }
+    double calculateFinalAmount() { 
+        return amount + 1.00;
+    }
+}
+class PayPalPayment extends Payment {
+    PayPalPayment(double amount) { 
+        super(amount); 
+    }
+    double calculateFinalAmount() { 
+        return amount; 
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double amount = scanner.nextDouble();
+        String method = scanner.next().toLowerCase();
+        if (amount < 0 || amount > 200) {
+            System.out.println("Invalid input");
+            return;
+        }
+        Payment payment = null;
+        switch (method) {
+            case "credit":
+                payment = new CreditCardPayment(amount);
+                break;
+            case "debit":
+                payment = new DebitCardPayment(amount);
+                break;
+            case "paypal":
+                payment = new PayPalPayment(amount);
+                break;
+            default:
+                System.out.println("Invalid input");
+                return;
+        }
+        System.out.printf("Final amount charged: $%.2f%n", payment.calculateFinalAmount());
+    }
+}
+
+ii), iii)
+import java.util.*;
+class Payment{
+    protected String name;
+    protected String id;
+    public Payment(String name, String id) {
+        this.name=name;
+        this.id=id;
+    }
+    public static boolean isValid(int g) {
+        return g>=0 && g<=100;
+    }
+    public void avg(int g[]) { 
+        int total = 0;
+        for (int grade : g) {
+            if (!isValid(grade)) {
+                System.out.println("Invalid input");
+                return;
+            }
+            total += grade;
+        }
+        if (g.length > 0) { 
+            int average = total / g.length;
+            System.out.println("Average is: " + average);
+        } else {
+            System.out.println("No grades provided.");
+        }
+    }
+}
+class UnderGraduate extends Payment {
+    public UnderGraduate(String name,String id) {
+        super(name,id);
+    }
+}
+class PostGraduate extends Payment {
+    public PostGraduate(String name,String id) {
+        super(name,id);
+    }
+}
+class Main {
+    public static void main(String args[]) {
+        Scanner in=new Scanner(System.in);
+        String name =in.nextLine();
+        String id=in.nextLine();
+        Payment p=null;
+        String st=in.nextLine().toLowerCase();
+        if(st.equals("undergraduate")) {
+            p = new UnderGraduate(name,id);
+        }
+        else if(st.equals("postgraduate")) {
+            p = new PostGraduate(name,id);
+        }
+        else {
+            System.out.println("Invalid type");
+            return;
+        }
+        int numGrade = Integer.parseInt(in.nextLine().trim());
+        if(numGrade<=0) {
+            System.out.println("invalid input");
+        }
+        int g[]=new int[numGrade];
+        for(int i=0;i<numGrade;i++) {
+            String grades=in.nextLine().trim();
+            try {
+                g[i]=Integer.parseInt(grades);
+                if(!Payment.isValid(g[i])) {
+                    System.out.println("Invalid input");
+                    return;
+                }
+            }
+            catch(NumberFormatException e) {
+                System.out.println("Invalid");
+                return;
+            }
+        }
+        p.avg(g);
+    }
+}
+
+//input:
+gaylord
+2839838
+undergraduate
+3
+85
+90
+75
+
+//output:
+Average is: 83

@@ -1,0 +1,102 @@
+Method Overloading & Overriding
+i), ii), iii)
+import java.util.*;
+class Library {
+    public void addBook(String t, String a, int y) {
+        if(ValidString(t) && ValidString(a) && ValidYear(y)) {
+            System.out.println("Title: "+t+"\nAuthor: "+a+"\nPublication Year: "+y+"\nPhysical");
+        }
+        else {
+            System.out.println("Invalid input");
+        }
+    }
+    public void addBook(String t, String a) {
+        if(ValidString(t) && ValidString(a)) {
+            System.out.println("Title: "+t+"\nAuthor: "+a+"\nPhysical");
+        }
+        else {
+            System.out.println("Invalid input");
+        }
+    }
+    public void addBook(String t) {
+        if(ValidString(t)) {
+            System.out.println("Title: "+t+"\nPhysical");
+        }
+        else {
+            System.out.println("Invalid input");
+        }
+    }
+    public boolean ValidString(String a) {
+        return a!=null && !a.trim().isEmpty();
+    }
+    public boolean ValidYear(int y) {
+        return y>=1000 && y<=9999;
+    }
+}
+class Digital extends Library {
+     public void addBook(String t, String a, int y) {
+        if(ValidString(t) && ValidString(a) && ValidYear(y)) {
+            System.out.println("Title: "+t+"\nAuthor: "+a+"\nPublication Year: "+y+"\nDigital");
+        }
+        else {
+            System.out.println("Invalid input");
+        }
+    }
+     public void addBook(String t, String a, int y, String f, String l) {
+        if(ValidString(t) && ValidString(a) && ValidYear(y) && ValidFormat(f) && ValidString(l)){
+            System.out.println("Title: "+t+"\nAuthor: "+a+"\nPublication Year: "+y+"\nFormat: "+f+"\nLink: "+l+"\nDigital");
+        }
+        else {
+            System.out.println("Invalid input");
+        }
+    }
+    public boolean ValidFormat(String f) {
+        String valid[]={"PDF","XML","ODT","TXT"};
+        for(String v : valid) {
+            if(v.equalsIgnoreCase(f)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+class main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String t=in.nextLine();
+        String a=in.nextLine();
+        int y=in.nextInt();
+        in.nextLine();
+        Library l=new Library();
+        l.addBook(t,a,y);
+        String dt=in.nextLine();
+        String da=in.nextLine();
+        int dy=in.nextInt();
+        in.nextLine();
+        String f=in.nextLine();
+        String li=in.nextLine();
+        Digital d=new Digital();
+        d.addBook(dt,da,dy,f,li);
+    }
+}
+
+//input:
+To Kill a Mockingbird
+Harper Lee
+1960
+Clean Code
+Robert C. Martin
+2008
+PDF
+https://example.com/download/CleanCode
+//output:
+Title: To Kill a Mockingbird
+Author: Harper Lee
+Publication Year: 1960
+Physical
+Title: Clean Code
+Author: Robert C. Martin
+Publication Year: 2008
+Format: PDF
+Link: https://example.com/download/CleanCode
+Digital
