@@ -1,48 +1,99 @@
 Collection Interface
 i), ii), iii)
-import java.util.*; 
-class Classroom {  
-    private List<Map<String, String>> attendanceList;     
-    public Classroom() {  
-        attendanceList = new ArrayList<>();
-    }  
-    public void addStudent(String studentName) {  
-        Map<String, String> studentRecord = new HashMap<>();         
-        studentRecord.put("Name", studentName);         
-        studentRecord.put("Status", "Absent");          
-        attendanceList.add(studentRecord);  
-        System.out.println("Student " + studentName + " has been added.");  
-    }  
-    public void markAttendance(String studentName, String status) {  
-        boolean studentFound = false;  
-        for (Map<String, String> studentRecord : attendanceList) {  
-            if (studentRecord.get("Name").equals(studentName)) {  
-                studentRecord.put("Status", status);                 
-                studentFound = true;  
-                System.out.println("Attendance for " + studentName + " has been marked as " + status + ".");  
-                break;  
-            }  
-        }  
-        if (!studentFound) {  
-            System.out.println("Student " + studentName + " not found.");  
-        }  
-    }
-    public void displayAttendance() {  
-        System.out.println("\nAttendance Records:");         
-        for (Map<String, String> studentRecord : attendanceList) {
-            System.out.println("Student: " + studentRecord.get("Name") + " | Status: " + studentRecord.get("Status"));  
-        }  
-    }
-    public static void main(String[] args) {  
-        Scanner scanner = new Scanner(System.in);  
-        Classroom classroom = new Classroom();  
-        String studentName = scanner.nextLine();         
-        classroom.addStudent(studentName);
-        studentName = scanner.nextLine();         
-        String status = scanner.nextLine();  
-        classroom.markAttendance(studentName, status);
-        classroom.displayAttendance();  
-    }
+import java.util.*;
+
+class Classroom {
+private Map<String, String> attendanceList; // Store students and their status
+
+public Classroom() {
+attendanceList = new HashMap<>();
+}
+
+// Method to add a student
+public void addStudent(String studentName) {
+if (studentName == null || studentName.isEmpty()) {
+System.out.println("Invalid input");
+return;
+}
+if (!attendanceList.containsKey(studentName)) {
+attendanceList.put(studentName, "Absent"); // Default status as "Absent"
+}}
+
+// Method to mark attendance
+public void markAttendance(String studentName, String status) {
+if (!status.equals("Present") && !status.equals("Absent")) {
+System.out.println("Invalid input");
+return;
+}
+if (attendanceList.containsKey(studentName)) {
+attendanceList.put(studentName, status);
+
+}
+}
+
+// Method to display all attendance records
+public void displayAttendance() {
+for (Map.Entry<String, String> entry : attendanceList.entrySet()) {
+System.out.println("Student: " + entry.getKey() + " \nStatus: " + entry.getValue());
+}
+}
+
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+Classroom classroom = new Classroom();
+
+// Check if the input is an integer
+if (!scanner.hasNextInt()) {
+System.out.println("Invalid input");
+
+scanner.close();
+return;
+}
+
+int n = scanner.nextInt();
+scanner.nextLine(); // Consume newline after the integer
+
+// Process each command
+for (int i = 0; i < n; i++) {
+if (!scanner.hasNextLine()) {
+System.out.println("Invalid input");
+break;
+}
+String command = scanner.nextLine().trim();
+String[] parts = command.split(" ", 3);
+
+switch (parts[0]) {
+case "1": // Add student
+if (parts.length == 2) {
+classroom.addStudent(parts[1]);
+} else {
+System.out.println("Invalid input");
+}
+break;
+
+case "2": // Mark attendance
+if (parts.length == 3) {
+String studentName = parts[1];
+String status = parts[2];
+classroom.markAttendance(studentName, status);
+} else {
+
+System.out.println("Invalid input");
+}
+break;
+
+case "3": // Display attendance
+classroom.displayAttendance();
+break;
+
+default:
+System.out.println("Invalid input");
+break;
+}
+}
+
+scanner.close();
+}
 }
 
 //input:
