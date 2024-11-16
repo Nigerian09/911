@@ -14,9 +14,7 @@ class Credit extends Payment {
     private String cno;
     private String exp;
     public Credit(String cn, String cno, String exp) {
-        if(!isValidN(cn) || !isValidNo(cno) || !isValidE(exp)) {
-            throw new IllegalArgumentException("Invalid card data");
-        }
+        
         this.cn=cn;
         this.cno=cno;
         this.exp=exp;
@@ -37,16 +35,18 @@ class Credit extends Payment {
         return Pattern.matches("0[1-9]|1[0-2]/\\d{2}",exp);
     }
     public String getPD() {
-        return "Cn: "+cn+"\nCno: "+cno+"\nexp: "+exp;
+if(!isValidN(cn) || !isValidNo(cno) || !isValidE(exp)) {
+            return "Invalid card data";
+        }
+else{
+        return "Cn: "+cn+"\nCno: "+cno+"\nexp: "+exp;}
     }
 }
 class Paypal extends Payment {
      private String e;
     private String tid;
     public Paypal(String e, String tid) {
-        if(!isValidNi(tid) || !isValidEmail(e)) {
-            throw new IllegalArgumentException("Invalid Paypal data");
-        }
+       
         this.e=e;
         this.tid=tid;
     }
@@ -63,7 +63,11 @@ class Paypal extends Payment {
         return Pattern.matches("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$",e);
     }
     public String getPD() {
-        return "email: "+e+"\ntid: "+tid;
+ if(!isValidNi(tid) || !isValidEmail(e)) {
+           return "Invalid Paypal data";
+        }
+else{
+        return "Email: "+e+"\nTransacttion ID: "+tid;}
     }
 }
 class Main {
@@ -82,8 +86,6 @@ class Main {
             String tid=in.nextLine();
             p=new Paypal(e,tid);
         }
-        System.out.println("Payment Type: "+Payt);
         System.out.println(p.getPD());
-        System.out.println("Transaction Status: "+p.transt());
     }
 }
