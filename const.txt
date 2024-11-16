@@ -118,7 +118,7 @@ class Main {
                 return;
             }
             Library l=new Library(t, a);
-            String vt=in.nextLine();
+            String vt=in.nextLine().trim();
             int va=in.nextInt();
             if(!Library.isValid(vt) || !Library.isValidGrade(va)) {
                 System.out.println("Invalid input");
